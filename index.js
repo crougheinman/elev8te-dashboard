@@ -6,7 +6,7 @@ const STORAGE_KEY = 'elevateClientOS_v7';
 const SUPABASE_URL = 'https://hhsxqdwtdrmpnjutevfq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhoc3hxZHd0ZHJtcG5qdXRldmZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NTkwNTksImV4cCI6MjA5NTAzNTA1OX0.8HT7gwGBi485zjNtWUfJHtEv2715-K4QQraDyIrW2vo';
 const SUPABASE_TABLE = 'tracker_state';
-const SUPABASE_STATE_ID = 'default';
+const SUPABASE_STATE_ID = 1;
 const supabaseLib = typeof supabase !== 'undefined' ? supabase : (typeof Supabase !== 'undefined' ? Supabase : null);
 const supabaseEnabled = SUPABASE_URL && SUPABASE_ANON_KEY && supabaseLib;
 const supabaseClient = supabaseEnabled ? supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
