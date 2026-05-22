@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><title>Elevate Client Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="automata.css">
+</head>
+<body>
+
+<input type="file" id="upload-company" accept="image/*" style="display:none;">
+<input type="file" id="upload-client" accept="image/*" style="display:none;">
+<input type="file" id="upload-pdf" accept="application/pdf" style="display:none;">
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <div><div class="modal-title" id="modal-title">Title</div><div class="modal-sub" id="modal-sub">Subtitle</div></div>
+      <button class="modal-close" id="modal-close">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot hidden" id="modal-foot"></div>
+  </div>
+</div>
+
+<div class="dp-overlay" id="dp-overlay"></div>
+<div class="dp-popover" id="dp-popover">
+  <div class="dp-top">
+    <input type="text" id="dp-start-input" placeholder="Start" readonly>
+    <span class="dp-arrow">→</span>
+    <input type="text" id="dp-end-input" placeholder="End" readonly>
+  </div>
+  <div class="dp-body">
+    <div class="dp-presets" id="dp-presets"></div>
+    <div class="dp-calendars"><div class="dp-cal" id="dp-cal-left"></div><div class="dp-cal" id="dp-cal-right"></div></div>
+  </div>
+  <div class="dp-foot"><button class="btn btn-ghost" id="dp-cancel">Cancel</button><button class="btn" id="dp-apply">Apply</button></div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-msg">Message</span><button id="toast-undo">Undo</button></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo" id="brand-logo">E</div>
+      <div><div class="brand-name">Elevate Media</div><div class="brand-sub">Agency CRM · v7.6</div></div>
+    </div>
+    <nav class="nav" id="sidebar-nav"></nav>
+    <div class="sidebar-spacer"></div>
+    <div style="display:flex; flex-direction:column; gap:6px; padding: 0 4px;">
+      <button class="btn btn-ghost btn-sm" id="btn-export-data" style="display:flex; align-items:center; gap:6px; justify-content:center;">⬇ Export Data</button>
+      <button class="btn btn-ghost btn-sm" id="btn-import-data" style="display:flex; align-items:center; gap:6px; justify-content:center;">⬆ Import Data</button>
+    </div>
+    <div class="sidebar-footer">
+      <div><b>Today:</b> <span id="today-date"></span></div>
+      <div class="last-sync">Local storage</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section id="page-dashboard"></section>
+    <section id="page-clients" class="hidden"></section>
+    <section id="page-meta" class="hidden"></section>
+    <section id="page-goals" class="hidden"></section>
+    <section id="page-feedback" class="hidden"></section>
+    <section id="page-sops" class="hidden"></section>
+  </main>
+</div>
+
+<script src="automata.js"></script>
+</body></html>
