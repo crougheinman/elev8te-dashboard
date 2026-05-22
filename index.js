@@ -102,6 +102,41 @@ let pendingPdfTarget = null;
 let toastTimer = null;
 let pendingUndo = null;
 let dp = { open: false, selStart: null, selEnd: null, pickingEnd: false, viewYear: null, viewMonth: null };
+let mobileMenuInitialized = false;
+
+// Mobile menu toggle setup (call once)
+function initMobileMenu() {
+  if (mobileMenuInitialized) return;
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const nav = document.getElementById('sidebar-nav');
+  if (toggle) {
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
+    });
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    mobileMenuInitialized = true;
+  }
+}
+
+// Update nav item listeners on each render
+function setupMobileMenuItems() {
+  const nav = document.getElementById('sidebar-nav');
+  const toggle = document.getElementById('mobile-menu-toggle');
+  nav.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
 function getDefaultState() {
   return {
@@ -199,7 +234,6 @@ async function refreshStateOnFocus() {
       state = remoteState;
       currentPage = state.navOrder[0] || currentPage;
       currentSub = state.currentSub || { clients: 'roster', meta: 'inputs' };
-      saveStateLocal();
       showPage();
     }
   } catch (err) {
@@ -354,6 +388,8 @@ function renderSidebar() {
     el.addEventListener('drop', (e) => { e.preventDefault(); const from = e.dataTransfer.getData('text/plain'); const to = el.dataset.page; if (from === to) return; const order = [...state.navOrder]; const i = order.indexOf(from); const j = order.indexOf(to); order.splice(i, 1); order.splice(j, 0, from); state.navOrder = order; saveState(); renderSidebar(); });
   });
   attachLabelEditing(nav);
+  initMobileMenu();
+  setupMobileMenuItems();
 }
 
 function showPage() {

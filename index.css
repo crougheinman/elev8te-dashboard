@@ -29,6 +29,17 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 .sidebar-footer { padding: 10px; background: #f9fafb; border-radius: 8px; font-size: 12px; color: #4b5563; }
 .sidebar-footer .last-sync { font-size: 11px; color: #6b7280; margin-top: 3px; }
 
+.mobile-menu-toggle { 
+  display: none; 
+  background: transparent; 
+  border: none; 
+  cursor: pointer; 
+  font-size: 24px; 
+  color: #111; 
+  padding: 8px; 
+  margin-left: auto;
+}
+
 .main { flex: 1; padding: 22px 28px 60px; max-width: 1500px; }
 .page-header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
 .page-title { font-size: 24px; font-weight: 800; margin: 0; }
@@ -401,3 +412,540 @@ textarea.inp { font-family: inherit; resize: vertical; min-height: 70px; }
 .alert-card .ac-text { flex: 1; }
 .alert-card .ac-title { font-weight: 700; color: #b91c1c; font-size: 14px; }
 .alert-card .ac-sub { font-size: 12px; color: #991b1b; margin-top: 2px; }
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+  .main { padding: 16px 18px 60px; }
+  .page-title { font-size: 20px; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .growth-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  table.roster-tbl { min-width: 900px; }
+  .dp-popover { width: 600px; }
+}
+
+@media (max-width: 768px) {
+  /* Layout */
+  .app { flex-direction: column; }
+  .sidebar { 
+    width: 100%; 
+    min-height: auto; 
+    position: relative; 
+    padding: 12px 10px; 
+    gap: 0; 
+    border-right: none; 
+    border-bottom: 1px solid #e5e7eb;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+  .brand { 
+    padding: 0; 
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .brand-name { font-size: 13px; }
+  .brand-sub { font-size: 10px; }
+  .mobile-menu-toggle {
+    display: block;
+  }
+  .nav { 
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column; 
+    gap: 0; 
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    z-index: 1000;
+  }
+  .nav.open {
+    max-height: 500px;
+  }
+  .nav-item { 
+    padding: 12px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .nav-item:last-child {
+    border-bottom: none;
+  }
+  .nav-item span:first-of-type { font-size: 16px; }
+  .nav-item span:nth-of-type(2) { display: inline; }
+  .nav-handle { display: none !important; }
+  .nav-badge {
+    margin-left: auto;
+  }
+  .sidebar-spacer { display: none; }
+  .sidebar-footer { 
+    display: none;
+  }
+  
+  /* Main content */
+  .main { 
+    padding: 14px 12px 60px; 
+    max-width: 100%;
+  }
+  .page-header { 
+    flex-direction: column; 
+    align-items: flex-start;
+  }
+  .page-title { font-size: 18px; }
+  .page-sub { font-size: 12px; }
+  
+  /* Subtabs */
+  .subtabs { 
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .subtab { 
+    padding: 6px 12px; 
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  
+  /* Cards */
+  .card { 
+    padding: 12px; 
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+  .card h3 { font-size: 14px; }
+  
+  /* KPIs */
+  .kpis { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 8px;
+  }
+  .kpi { 
+    padding: 10px 12px;
+    min-width: 0;
+  }
+  .kpi .kpi-value { font-size: 18px; }
+  .kpi .kpi-foot { font-size: 10px; }
+  
+  /* Tables */
+  table.tbl { 
+    font-size: 12px;
+  }
+  table.tbl th, table.tbl td { 
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  
+  /* Roster Table */
+  .roster-wrap { 
+    border-radius: 10px;
+  }
+  table.roster-tbl { 
+    min-width: 600px;
+    font-size: 12px;
+  }
+  table.roster-tbl th, table.roster-tbl td { 
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  .col-name { min-width: 140px; }
+  .col-status { min-width: 80px; }
+  .col-service { min-width: 70px; }
+  .col-owner { min-width: 100px; }
+  .col-email { min-width: 140px; }
+  .col-margin, .col-feeRev, .col-feeProfit { min-width: 70px; }
+  .col-breakEven { min-width: 90px; }
+  .col-agreement { min-width: 90px; }
+  .col-actions { min-width: 70px; }
+  
+  /* Charts */
+  .charts-grid { 
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .chart-wrap { 
+    height: 250px;
+    padding: 12px;
+  }
+  .chart-card { 
+    min-height: 250px;
+    padding: 12px;
+  }
+  .chart-card canvas { 
+    height: 200px !important;
+  }
+  
+  /* Growth Plan Cards */
+  .growth-grid { 
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .growth-card { 
+    padding: 12px;
+    border-radius: 10px;
+  }
+  .gc-targets { 
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .gc-rank { 
+    width: 26px; 
+    height: 26px;
+    font-size: 12px;
+  }
+  
+  /* Modal */
+  .modal { 
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 14px;
+  }
+  .modal-head { 
+    padding: 14px 16px;
+  }
+  .modal-title { 
+    font-size: 16px;
+  }
+  .modal-body { 
+    padding: 12px 16px 16px;
+    font-size: 13px;
+  }
+  .form-grid { 
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  /* Buttons */
+  .btn { 
+    padding: 6px 12px; 
+    font-size: 12px;
+    border-radius: 6px;
+  }
+  .btn-sm { 
+    padding: 4px 8px; 
+    font-size: 11px;
+  }
+  
+  /* Inputs */
+  .inp, .sel { 
+    padding: 8px;
+    font-size: 13px;
+  }
+  
+  /* Schedule */
+  .schedule-card { 
+    padding: 0;
+  }
+  .schedule-row { 
+    padding: 10px 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sr-date { 
+    width: 100%;
+    flex-shrink: 0;
+    padding: 6px 8px;
+  }
+  .sr-date .sr-day { 
+    font-size: 16px;
+  }
+  .sr-edit { 
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sr-edit input[type="date"] { 
+    width: 100%;
+    max-width: 160px;
+  }
+  .sr-edit input[type="time"] { 
+    width: 100%;
+    max-width: 120px;
+  }
+  
+  /* SOPs */
+  .sop-layout-v2 { 
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .sop-layout-v2.collapsed { 
+    grid-template-columns: 1fr;
+  }
+  .sop-inner-sidebar { 
+    display: none;
+  }
+  .sop-layout-v2.collapsed .sop-inner-sidebar { 
+    display: block;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    max-height: 200px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sop-doc-area { 
+    padding: 20px 14px;
+    max-width: 100%;
+  }
+  .sop-title-big { 
+    font-size: 24px;
+  }
+  .sop-desc-big { 
+    font-size: 13px;
+  }
+  .sop-body-area { 
+    min-height: 300px;
+    font-size: 14px;
+  }
+  
+  /* Assets */
+  .asset-row { 
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .asset-days { 
+    width: 60px;
+    padding: 6px 0;
+  }
+  .asset-days .ad-num { 
+    font-size: 18px;
+  }
+  
+  /* Feedback */
+  .fb-card { 
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+  .fb-head { 
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* Date Picker */
+  .dp-popover { 
+    width: 95vw;
+    max-width: 480px;
+  }
+  .dp-body { 
+    grid-template-columns: 1fr;
+  }
+  .dp-calendars { 
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+  .dp-presets { 
+    border-right: none;
+    border-bottom: 1px solid #f1f5f9;
+    max-height: 150px;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .dp-preset { 
+    flex: 0 0 calc(50% - 2px);
+  }
+  
+  /* Toast */
+  .toast { 
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+    transform: translateY(120px);
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  .toast.show { 
+    transform: translateY(0);
+  }
+  
+  /* Client Logo */
+  .client-logo { 
+    width: 32px; 
+    height: 32px;
+    font-size: 13px;
+  }
+  .client-logo.lg { 
+    width: 48px; 
+    height: 48px;
+    font-size: 18px;
+  }
+  .client-logo.sm { 
+    width: 24px; 
+    height: 24px;
+    font-size: 10px;
+  }
+  
+  /* Roster specific adjustments */
+  .roster-group-header .rgh-pill { 
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+  
+  /* Copy field */
+  .copy-field { 
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+  
+  /* Agreement PDF */
+  .agreement-pdf { 
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Layout */
+  .app { flex-direction: column; }
+  .sidebar { 
+    padding: 8px;
+    gap: 6px;
+  }
+  .brand { gap: 6px; }
+  .brand-logo { 
+    width: 28px; 
+    height: 28px;
+    font-size: 13px;
+  }
+  .brand-name { 
+    font-size: 12px;
+    display: none;
+  }
+  .brand-sub { display: none; }
+  .nav { 
+    width: 100%;
+    gap: 2px;
+  }
+  .nav-item { 
+    padding: 4px 6px;
+    font-size: 10px;
+    min-width: 60px;
+  }
+  .nav-item span:first-of-type { font-size: 16px; }
+  
+  /* Main content */
+  .main { 
+    padding: 10px 8px 50px;
+  }
+  .page-title { 
+    font-size: 16px;
+  }
+  .page-header { 
+    margin-bottom: 12px;
+  }
+  
+  /* Cards and content */
+  .card { 
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  .card h3 { font-size: 13px; }
+  
+  /* KPIs */
+  .kpis { 
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .kpi { 
+    padding: 8px 10px;
+  }
+  .kpi .kpi-value { font-size: 16px; }
+  .kpi-head { font-size: 11px; }
+  
+  /* Tables */
+  table.tbl { 
+    font-size: 11px;
+  }
+  table.tbl th, table.tbl td { 
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  
+  /* Roster Table - stack on extra small */
+  table.roster-tbl { 
+    min-width: 450px;
+    font-size: 10px;
+  }
+  table.roster-tbl th, table.roster-tbl td { 
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+  .col-name { min-width: 100px; }
+  .col-status { min-width: 70px; }
+  .col-service { min-width: 60px; }
+  .col-owner { min-width: 80px; }
+  .col-email { min-width: 120px; }
+  
+  /* Buttons */
+  .btn { 
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  /* Modal */
+  .modal { 
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+  .modal-head { 
+    padding: 12px 14px;
+  }
+  .modal-title { 
+    font-size: 14px;
+  }
+  
+  /* Inputs */
+  .inp, .sel { 
+    padding: 6px;
+    font-size: 12px;
+  }
+  
+  /* SOPs */
+  .sop-doc-area { 
+    padding: 14px 10px;
+  }
+  .sop-title-big { 
+    font-size: 20px;
+  }
+  .sop-desc-big { 
+    font-size: 12px;
+  }
+  
+  /* Date Picker */
+  .dp-popover { 
+    width: 98vw;
+    max-width: 100%;
+  }
+  .dp-top { 
+    padding: 10px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .dp-top input { 
+    max-width: 100%;
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  /* Toast */
+  .toast { 
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
+  
+  /* Export/Import buttons */
+  #btn-export-data, #btn-import-data { 
+    display: none !important;
+  }
+}
+

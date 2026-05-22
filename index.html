@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><title>Elevate Client Tracker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Elevate Client Tracker</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
 <link rel="stylesheet" href="index.css">
@@ -44,6 +46,7 @@
       <div class="brand-logo" id="brand-logo">E</div>
       <div><div class="brand-name">Elevate Media</div><div class="brand-sub">Agency CRM · v7.6</div></div>
     </div>
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">☰</button>
     <nav class="nav" id="sidebar-nav"></nav>
     <div class="sidebar-spacer"></div>
     <div style="display:flex; flex-direction:column; gap:6px; padding: 0 4px;">
@@ -52,7 +55,7 @@
     </div>
     <div class="sidebar-footer">
       <div><b>Today:</b> <span id="today-date"></span></div>
-      <div class="last-sync">Local storage</div>
+      <div class="last-sync">Supabase sync</div>
     </div>
   </aside>
 
