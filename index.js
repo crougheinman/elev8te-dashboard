@@ -103,36 +103,7 @@ let toastTimer = null;
 let pendingUndo = null;
 let dp = { open: false, selStart: null, selEnd: null, pickingEnd: false, viewYear: null, viewMonth: null };
 
-function loadState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const s = JSON.parse(raw);
-      s.clients = s.clients || [];
-      s.clients.forEach(c => {
-        if (c.profileNote === undefined) c.profileNote = '';
-        if (c.notes === undefined) c.notes = '';
-        if (c.archived === undefined) c.archived = false;
-        if (c.agreementPdf === undefined) c.agreementPdf = null;
-        if (c.agreementName === undefined) c.agreementName = null;
-        if (c.profitMargin === undefined) c.profitMargin = 60;
-        if (c.feeOnRevenue === undefined) c.feeOnRevenue = c.cutPercent || 10;
-        if (c.feeOnProfit === undefined) c.feeOnProfit = 0;
-        if (c.nextDropEndDate === undefined) c.nextDropEndDate = '';
-      });
-      s.feedback = s.feedback || [];
-      s.fbFilter = s.fbFilter || { clientId: '', status: '' };
-      s.sops = s.sops || JSON.parse(JSON.stringify(DEFAULT_SOPS));
-      s.sopCategories = s.sopCategories || JSON.parse(JSON.stringify(DEFAULT_SOP_CATEGORIES));
-      s.sopUi = s.sopUi || { activeFilter: 'all', editMode: false, search: '' };
-      s.assets = s.assets || [];
-      s.navOrder = s.navOrder || [...DEFAULT_NAV_ORDER];
-      s.currentSub = s.currentSub || { clients: 'roster', meta: 'inputs' };
-      s.dateRange = s.dateRange || defaultRange();
-      s.dashboardWeek = s.dashboardWeek || weekStartISO(new Date());
-      return s;
-    }
-  } catch (e) { console.warn(e); }
+function getDefaultState() {
   return {
     clients: JSON.parse(JSON.stringify(DEFAULT_CLIENTS)),
     drops: [], weeklyData: {}, feedback: [], fbFilter: { clientId: '', status: '' },
@@ -148,9 +119,39 @@ function loadState() {
     dateRange: defaultRange()
   };
 }
-function saveStateLocal() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { console.warn(e); } }
+
+function normalizeState(s) {
+  const normalized = Object.assign(getDefaultState(), s || {});
+  normalized.clients = Array.isArray(s?.clients) ? s.clients : getDefaultState().clients;
+  normalized.clients.forEach(c => {
+    if (c.profileNote === undefined) c.profileNote = '';
+    if (c.notes === undefined) c.notes = '';
+    if (c.archived === undefined) c.archived = false;
+    if (c.agreementPdf === undefined) c.agreementPdf = null;
+    if (c.agreementName === undefined) c.agreementName = null;
+    if (c.profitMargin === undefined) c.profitMargin = 60;
+    if (c.feeOnRevenue === undefined) c.feeOnRevenue = c.cutPercent || 10;
+    if (c.feeOnProfit === undefined) c.feeOnProfit = 0;
+    if (c.nextDropEndDate === undefined) c.nextDropEndDate = '';
+  });
+  normalized.feedback = Array.isArray(s?.feedback) ? s.feedback : [];
+  normalized.fbFilter = s?.fbFilter || { clientId: '', status: '' };
+  normalized.sops = Array.isArray(s?.sops) ? s.sops : JSON.parse(JSON.stringify(DEFAULT_SOPS));
+  normalized.sopCategories = Array.isArray(s?.sopCategories) ? s.sopCategories : JSON.parse(JSON.stringify(DEFAULT_SOP_CATEGORIES));
+  normalized.sopUi = s?.sopUi || { activeFilter: 'all', editMode: false, search: '' };
+  normalized.assets = Array.isArray(s?.assets) ? s.assets : [];
+  normalized.navOrder = Array.isArray(s?.navOrder) ? s.navOrder : [...DEFAULT_NAV_ORDER];
+  normalized.currentSub = s?.currentSub || { clients: 'roster', meta: 'inputs' };
+  normalized.dateRange = s?.dateRange || defaultRange();
+  normalized.dashboardWeek = s?.dashboardWeek || weekStartISO(new Date());
+  normalized.currentWeek = s?.currentWeek || weekStartISO(new Date());
+  return normalized;
+}
+
+function loadState() {
+  return getDefaultState();
+}
 function saveState() {
-  saveStateLocal();
   if (supabaseEnabled) {
     saveStateRemote().catch(err => console.warn('Supabase save failed', err));
   }
@@ -1747,7 +1748,7 @@ function importData() {
         const importedState = parsed.data || parsed;
         if (!importedState.clients || !Array.isArray(importedState.clients)) { alert('That file does not look like an Elevate Tracker export.'); return; }
         if (!confirm(`Import data from this file?\n\nClients: ${importedState.clients.length}\n\nYour current data will be backed up first.`)) return;
-        localStorage.setItem(STORAGE_KEY + '_backup_' + Date.now(), JSON.stringify(state));
+        const backup = JSON.parse(JSON.stringify(state));
         state = importedState;
         saveState(); renderAll();
         showToast(`Imported ${importedState.clients.length} clients.`, null);
@@ -1777,10 +1778,9 @@ function init() {
     if (supabaseEnabled) {
       loadStateRemote().then(remoteState => {
         if (remoteState) {
-          state = remoteState;
+          state = normalizeState(remoteState);
           currentPage = state.navOrder[0];
           currentSub = state.currentSub || { clients: 'roster', meta: 'inputs' };
-          saveStateLocal();
           showPage();
         } else {
           saveStateRemote().catch(err => console.warn('Supabase initial save failed', err));
