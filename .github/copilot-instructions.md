@@ -18,6 +18,8 @@
 - `loadState()` hydrates state from `localStorage`; if no state exists, it initializes from hardcoded defaults like `DEFAULT_CLIENTS` and `DEFAULT_SOPS`.
 - The app is effectively a manual DOM-render SPA with templated HTML strings and event attachment after render.
 
+- Supabase support is optionally available in `index.js` when `SUPABASE_URL` and `SUPABASE_ANON_KEY` are filled. Local storage remains the primary persistence layer and remote sync is not required for normal use.
+
 ## Important patterns
 
 - Avoid assuming a framework; this code is plain ES202x browser JS.
@@ -31,6 +33,8 @@
 - Keep changes localized to the page renderer or state function being modified.
 - Preserve the existing `saveState()` / `loadState()` semantics. This app is intentionally plain browser-only and does not use backend sync.
 - Use the existing data model shape where possible; the app expects fields like `nextDropDate`, `feeOnRevenue`, `customBreakEvenRoas`, `agreementPdf`, `weeklyData`, and `assets`.
+
+- If you need remote persistence, wire in Supabase carefully and preserve the current local-first behavior. Do not replace `localStorage` with Supabase-only storage.
 
 ## Debugging
 
