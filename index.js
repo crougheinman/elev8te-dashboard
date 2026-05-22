@@ -190,6 +190,23 @@ async function saveStateRemote() {
   }
 }
 
+async function refreshStateOnFocus() {
+  if (!supabaseEnabled) return;
+  try {
+    const remoteState = await loadStateRemote();
+    if (!remoteState) return;
+    if (JSON.stringify(remoteState) !== JSON.stringify(state)) {
+      state = remoteState;
+      currentPage = state.navOrder[0] || currentPage;
+      currentSub = state.currentSub || { clients: 'roster', meta: 'inputs' };
+      saveStateLocal();
+      showPage();
+    }
+  } catch (err) {
+    console.warn('Supabase focus refresh failed', err);
+  }
+}
+
 // Helpers
 function weekStartISO(d) { const dt = new Date(d); const day = dt.getDay(); const diff = dt.getDate() - day + (day === 0 ? -6 : 1); const monday = new Date(dt.setDate(diff)); monday.setHours(0, 0, 0, 0); return monday.toISOString().split('T')[0]; }
 function addDays(iso, n) { const d = new Date(iso); d.setDate(d.getDate() + n); return d.toISOString().split('T')[0]; }
@@ -1786,6 +1803,7 @@ function init() {
           saveStateRemote().catch(err => console.warn('Supabase initial save failed', err));
         }
       }).catch(err => console.warn('Supabase sync failed', err));
+      window.addEventListener('focus', refreshStateOnFocus);
     }
   } catch (e) {
     console.error('init/showPage failed:', e);
